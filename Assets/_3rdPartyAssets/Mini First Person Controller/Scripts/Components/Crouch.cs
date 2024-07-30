@@ -26,15 +26,6 @@ public class Crouch : MonoBehaviour
     public bool IsCrouched { get; private set; }
     public event System.Action CrouchStart, CrouchEnd;
 
-    private UnityDefaultInputActions playerInputAction;
-
-
-    private void Start()
-    {
-        // FirstPersonMovement.playerInputAction.BasePlayer.Crouch.performed += DoJump;
-        playerInputAction = FirstPersonMovement.playerInputAction;
-    }
-
     void Reset()
     {
         // Try to get components.
@@ -45,7 +36,7 @@ public class Crouch : MonoBehaviour
 
     void LateUpdate()
     {
-        if (playerInputAction.Player.Crouch.IsPressed())
+        if (PlayerInputSystem.Instance.Crouch)
         {
             // Enforce a low head.
             if (headToLower)

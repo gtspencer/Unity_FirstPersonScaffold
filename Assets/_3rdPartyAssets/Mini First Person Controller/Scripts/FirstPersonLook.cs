@@ -9,8 +9,6 @@ public class FirstPersonLook : MonoBehaviour
 
     Vector2 velocity;
     Vector2 frameVelocity;
-    
-    UnityDefaultInputActions playerInputAction;
 
 
     void Reset()
@@ -23,15 +21,13 @@ public class FirstPersonLook : MonoBehaviour
     {
         // Lock the mouse cursor to the game screen.
         Cursor.lockState = CursorLockMode.Locked;
-
-        playerInputAction = FirstPersonMovement.playerInputAction;
     }
 
     void Update()
     {
         // Get smooth velocity.
         // Vector2 mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        Vector2 mouseDelta = playerInputAction.Player.Look.ReadValue<Vector2>();
+        Vector2 mouseDelta = PlayerInputSystem.Instance.Look;
         Vector2 rawFrameVelocity = Vector2.Scale(mouseDelta, Vector2.one * sensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;

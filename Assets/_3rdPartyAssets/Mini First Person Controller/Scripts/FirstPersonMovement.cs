@@ -16,23 +16,18 @@ public class FirstPersonMovement : MonoBehaviour
     Rigidbody rigidbody;
     /// <summary> Functions to override movement speed. Will use the last added override. </summary>
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
-
-    public static UnityDefaultInputActions playerInputAction;
-
+    
     void Awake()
     {
         // Get the rigidbody on this.
         rigidbody = GetComponent<Rigidbody>();
-        
-        playerInputAction = new UnityDefaultInputActions();
-        playerInputAction.Player.Enable();
     }
 
     void FixedUpdate()
     {
-        var inputVector = playerInputAction.Player.Move.ReadValue<Vector2>();
+        var inputVector = PlayerInputSystem.Instance.Movement;
 
-        IsSprinting = playerInputAction.Player.Sprint.IsPressed();
+        IsSprinting = PlayerInputSystem.Instance.Sprint;
 
         // Get targetMovingSpeed.
         float targetMovingSpeed = (IsSprinting && canRun) ? runSpeed : speed;

@@ -26,15 +26,20 @@ public class Jump : MonoBehaviour
 
     private void Start()
     {
-        FirstPersonMovement.playerInputAction.Player.Jump.performed += DoJump;
+        PlayerInputSystem.Instance.OnJump += DoJump;
     }
 
-    public void DoJump(InputAction.CallbackContext context)
+    public void DoJump()
     {
         if (!groundCheck || groundCheck.isGrounded)
         {
             rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
             Jumped?.Invoke();
         }
+    }
+
+    private void OnDestroy()
+    {
+        PlayerInputSystem.Instance.OnJump -= DoJump;
     }
 }
