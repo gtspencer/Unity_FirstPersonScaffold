@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Jump : MonoBehaviour
 {
@@ -22,10 +24,14 @@ public class Jump : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    void LateUpdate()
+    private void Start()
     {
-        // Jump when the Jump button is pressed and we are on the ground.
-        if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))
+        FirstPersonMovement.playerInputAction.Player.Jump.performed += DoJump;
+    }
+
+    public void DoJump(InputAction.CallbackContext context)
+    {
+        if (!groundCheck || groundCheck.isGrounded)
         {
             rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
             Jumped?.Invoke();
